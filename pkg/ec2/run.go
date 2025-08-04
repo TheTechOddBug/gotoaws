@@ -79,7 +79,7 @@ func (cmd *CommandRunner) Result() (string, error) {
 		case types.CommandInvocationStatusSuccess:
 			return *output.StandardOutputContent, nil
 		case types.CommandInvocationStatusCancelled, types.CommandInvocationStatusCancelling, types.CommandInvocationStatusFailed, types.CommandInvocationStatusTimedOut:
-			return "", fmt.Errorf(*output.StandardErrorContent)
+			return "", fmt.Errorf("%s", *output.StandardErrorContent)
 		}
 	}
 }
