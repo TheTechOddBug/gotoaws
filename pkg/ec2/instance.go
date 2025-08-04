@@ -105,8 +105,13 @@ func (f *instanceFinder) FindByIdentifier(identifier string) ([]Instance, error)
 	ctx, cancel := context.WithTimeout(context.Background(), f.timeout)
 	defer cancel()
 
+	instanceRunningFilter := types.Filter{
+		Name:   aws.String("instance-state-name"),
+		Values: []string{"running"},
+	}
+
 	input := &aws_ec2.DescribeInstancesInput{
-		Filters:    []types.Filter{parseIdentifier(identifier)},
+		Filters:    []types.Filter{parseIdentifier(identifier), instanceRunningFilter},
 		MaxResults: aws.Int32(100),
 	}
 
